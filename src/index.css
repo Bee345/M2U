@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #FFBC00;
+  --color-primary-dark: #E6A900;
+  --color-accent: #FF8C00;
+  --color-background: #FFFFFF;
+  --color-surface: #F4F4F4;
+  --color-surface-alt: #EBEBEB;
+  --color-text-primary: #000000;
+  --color-text-secondary: #666666;
+  --color-text-inverse: #FFFFFF;
+  --color-border: #DDDDDD;
+  --color-border-focus: #FFBC00;
+  --color-success: #28A745;
+  --color-warning: #FFC107;
+  --color-error: #DC3545;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary font-sans antialiased;
+  }
+}
+
+@layer components {
+  .m2u-card {
+    @apply bg-gradient-to-br from-[#FFBC00] to-[#FF8C00] rounded-lg p-6 text-white shadow-lg;
+  }
+
+  .m2u-btn-primary {
+    @apply bg-primary hover:bg-primary-dark text-black font-semibold py-3 px-6 rounded-full transition-all duration-200 text-center;
+  }
+
+  .m2u-icon-btn {
+    @apply flex flex-col items-center gap-2;
+  }
+
+  .m2u-icon-container {
+    @apply w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-sm;
+  }
+}

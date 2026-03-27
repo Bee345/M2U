@@ -1,0 +1,17 @@
+{
+  "name": "M2U Mobile Clone",
+  "short_name": "M2U",
+  "description": "High-fidelity banking app clone inspired by Maybank2u.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFBC00",
+  "theme_color": "#FFBC00",
+  "icons": [
+    {
+      "src": "https://ais-dev-rhelq4d2ipxt3fwi4rymot-469604021731.europe-west2.run.app/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
