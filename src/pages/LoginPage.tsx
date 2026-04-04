@@ -23,6 +23,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
       const role = email.toLowerCase().includes('admin') ? 'admin' : 'user';
       localStorage.setItem('m2u_auth', 'true');
       localStorage.setItem('m2u_role', role);
+      localStorage.setItem('m2u_email', email);
       onLogin(role);
       navigate(role === 'admin' ? '/admin' : '/dashboard');
     }, 1500);
@@ -33,19 +34,15 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      className="h-full flex flex-col bg-white"
+      className="min-h-full flex flex-col bg-white"
     >
-      <div className="px-6 py-4 flex items-center justify-between">
-        <button onClick={() => navigate('/')} className="p-2 -ml-2">
+      <div className="px-6 py-4">
+        <button onClick={() => navigate('/')} className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors">
           <ChevronLeft size={24} />
         </button>
-        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-          <span className="text-black font-black text-xs">M2U</span>
-        </div>
-        <div className="w-8"></div>
       </div>
 
-      <div className="flex-1 px-8 pt-12">
+      <div className="flex-1 px-8 pt-4">
         <h2 className="text-2xl font-bold mb-2">Welcome Back</h2>
         <p className="text-gray-500 mb-10">Please enter your credentials to continue</p>
 

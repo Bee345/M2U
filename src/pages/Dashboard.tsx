@@ -19,18 +19,31 @@ import {
   ShieldCheck,
   LogOut
 } from 'lucide-react';
+import ErrorModal from '../components/ErrorModal';
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [balance, setBalance] = useState(200000000);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
-    const savedBalance = localStorage.getItem('m2u_balance');
-    if (savedBalance) {
-      setBalance(Number(savedBalance));
-    } else {
-      localStorage.setItem('m2u_balance', '200000000');
-    }
+    // Simulate data fetching from database
+    setTimeout(() => {
+      try {
+        const savedBalance = localStorage.getItem('m2u_balance');
+        if (savedBalance) {
+          setBalance(Number(savedBalance));
+        } else {
+          localStorage.setItem('m2u_balance', '200000000');
+        }
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch balance:", err);
+        setShowError(true);
+        setIsLoading(false);
+      }
+    }, 1000);
   }, []);
 
   const handleLogout = () => {
@@ -51,24 +64,33 @@ export default function Dashboard() {
     { id: 'sama2-lokal', label: 'Sama2 Lokal', icon: <Heart className="text-primary" />, color: 'bg-white' },
   ];
 
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center bg-surface">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+          <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Loading Accounts...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="h-full flex flex-col bg-surface"
+      className="min-h-full flex flex-col bg-surface"
     >
-      {/* Header */}
-      <div className="px-6 py-4 flex items-center justify-between bg-white border-b border-gray-100">
-        <button onClick={() => navigate('/')} className="p-1">
+      <div className="px-6 py-4 flex items-center justify-between">
+        <button onClick={() => navigate('/')} className="p-2 -ml-2 hover:bg-white rounded-full transition-colors">
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-lg font-bold">Accounts</h1>
-        <button onClick={handleLogout} className="p-1 text-red-500">
+        <button onClick={handleLogout} className="p-2 -mr-2 text-red-500 hover:bg-white rounded-full transition-colors">
           <LogOut size={24} />
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
+      <div className="flex-1 overflow-y-auto px-6 py-2 space-y-8">
         {/* Account Card */}
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
@@ -172,6 +194,12 @@ export default function Dashboard() {
           <span className="text-[10px] font-bold uppercase tracking-tighter">Secure2u</span>
         </button>
       </div>
+      <ErrorModal 
+        isOpen={showError} 
+        onClose={() => setShowError(false)}
+        title="Connection Error"
+        message="FAILED TO CONNECT TO DATABASE. PLEASE CHECK YOUR INTERNET CONNECTION."
+      />
     </motion.div>
   );
 }

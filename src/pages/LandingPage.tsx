@@ -6,7 +6,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="h-full flex flex-col bg-primary relative overflow-hidden">
+    <div className="min-h-full flex flex-col bg-primary relative overflow-hidden">
       {/* Background Pattern / Logo */}
       <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
       

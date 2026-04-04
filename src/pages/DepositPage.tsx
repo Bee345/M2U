@@ -2,20 +2,27 @@ import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ChevronLeft, PlusCircle, CheckCircle2 } from 'lucide-react';
+import ErrorModal from '../components/ErrorModal';
 
 export default function DepositPage() {
   const navigate = useNavigate();
   const [amount, setAmount] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const handleDeposit = (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
+    // Simulate API call with potential error
     setTimeout(() => {
       setIsLoading(false);
-      setIsSuccess(true);
+      if (amount === '999') {
+        setShowError(true);
+      } else {
+        setIsSuccess(true);
+      }
     }, 1500);
   };
 
@@ -45,16 +52,16 @@ export default function DepositPage() {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="h-full flex flex-col bg-white"
+      className="min-h-full flex flex-col bg-white"
     >
-      <div className="px-6 py-4 flex items-center gap-4 border-b border-gray-100">
-        <button onClick={() => navigate('/dashboard')} className="p-1">
+      <div className="px-6 py-4 flex items-center gap-4">
+        <button onClick={() => navigate('/dashboard')} className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors">
           <ChevronLeft size={24} />
         </button>
         <h1 className="text-lg font-bold">Deposit Funds</h1>
       </div>
 
-      <div className="flex-1 px-8 pt-8">
+      <div className="flex-1 px-8 pt-4">
         <div className="bg-primary/10 p-4 rounded-xl flex items-start gap-3 mb-8">
           <PlusCircle className="text-primary-dark shrink-0" size={20} />
           <p className="text-xs text-gray-600 leading-relaxed">
@@ -109,6 +116,13 @@ export default function DepositPage() {
           </button>
         </form>
       </div>
+
+      <ErrorModal 
+        isOpen={showError} 
+        onClose={() => setShowError(false)}
+        title="Deposit Failed"
+        message="UNABLE TO PROCESS DEPOSIT AT THIS TIME. PLEASE CONTACT SUPPORT."
+      />
     </motion.div>
   );
 }
